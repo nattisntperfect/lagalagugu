@@ -890,7 +890,6 @@ input[type="range"]::-moz-range-thumb:hover {
     }
 }
 
-
 @media (max-width: 768px) {
     .menu-toggle-btn { 
         display: block;
@@ -899,42 +898,35 @@ input[type="range"]::-moz-range-thumb:hover {
         position: fixed;
         left: -220px; 
         height: 100%;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.2);
     }
     .sidebar.open {
         left: 0; 
     }
     .main-content {
-        padding: 15px;
+        padding: 70px 15px 100px 15px; /* Padding bawah disesuaikan untuk player bar baru */
         margin-left: 0; 
     }
     .main-content.sidebar-open-overlay::before {
         content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6);
         z-index: 1050; 
     }
 
     .page-header {
-        flex-direction: column; /* Judul di atas, search/tombol di bawah */
-        align-items: flex-start; /* Rata kiri untuk semua item */
+        flex-direction: column;
+        align-items: flex-start;
     }
     .page-header h2 {
         font-size: 1.5em;
-        margin-bottom: 10px; /* Jarak ke elemen di bawahnya */
-        margin-right: 0; /* Hapus margin kanan */
+        margin-bottom: 10px;
+        margin-right: 0;
     }
-    .page-header .btn { /* Tombol di page header */
-        width: 100%;
-        margin-top: 5px;
-    }
+    .page-header .btn,
+    .search-container,
     #searchInput {
-        width: 100%; 
-    }
-    #searchInput:focus {
         width: 100%;
     }
 
@@ -942,28 +934,91 @@ input[type="range"]::-moz-range-thumb:hover {
         grid-template-columns: 1fr; 
     }
     
-     .player-controls {
-        flex-basis: 100%;
-        justify-content: space-around; 
-        order: 2;
-        margin-top: 10px;
-    }
-    .control-btn {
-        margin: 0 2px; 
-        font-size: 1.2em; 
-        width: 36px; /* Sesuaikan ukuran tombol di mobile */
-        height: 36px;
-    }
-    .control-btn.play-btn {
-        font-size: 1.7em;
-        width: 46px;
-        height: 46px;
-    }
     .modal-content {
-        margin: 5% auto; /* Margin atas lebih kecil di mobile */
         padding: 20px;
         max-width: 90%;
     }
+
+    /* --- PENYESUAIAN PLAYER BAR AGAR TIDAK TINGGI (DIMULAI) --- */
+    
+    /* Hapus aturan lama untuk .player-bar di @media (max-width: 992px) jika ada, dan gunakan ini */
+    .player-bar {
+        height: auto;
+        padding: 8px 15px;
+        display: grid;
+        grid-template-columns: 1fr auto; /* Kolom info lagu | Kolom tombol */
+        grid-template-rows: auto auto; /* Baris atas | Baris progress */
+        grid-template-areas:
+            "info controls"
+            "progress progress";
+        align-items: center;
+        gap: 8px; /* Jarak antar baris dan kolom */
+        flex-wrap: nowrap; /* Pastikan tidak wrap lagi */
+    }
+
+    .song-info {
+        grid-area: info;
+        margin-bottom: 0;
+        justify-content: flex-start;
+        flex-basis: auto; /* Hapus flex-basis 100% */
+        order: unset; /* Hapus order */
+    }
+
+    .player-cover {
+        width: 40px; /* Cover diperkecil */
+        height: 40px;
+    }
+    
+    .song-details .player-title,
+    .song-details .player-artist {
+        max-width: 150px; /* Beri ruang lebih untuk teks */
+    }
+
+    .progress-volume-controls {
+        grid-area: progress;
+        margin-bottom: 0;
+        order: unset;
+        flex-basis: auto;
+    }
+
+    /* Sembunyikan teks waktu untuk menghemat ruang */
+    .progress-container span {
+        display: none;
+    }
+
+    .player-controls {
+        grid-area: controls;
+        margin: 0;
+        flex-basis: auto;
+        justify-content: flex-end; /* Tombol di kanan */
+        gap: 12px;
+        order: unset;
+    }
+    
+    /* Sembunyikan tombol yang kurang esensial di tampilan mobile */
+    .player-controls #shuffleBtn,
+    .player-controls #repeatBtn,
+    .player-controls #prevBtn {
+        display: none;
+    }
+
+    .control-btn {
+        margin: 0;
+        font-size: 1.5em;
+        width: 40px;
+        height: 40px;
+    }
+
+    .control-btn.play-btn {
+        font-size: 2.2em;
+        width: 48px;
+        height: 48px;
+    }
+     /* --- PENYESUAIAN PLAYER BAR (SELESAI) --- */
+}
+
+
+
 }
 
 /* Dark Mode  */
