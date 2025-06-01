@@ -1,12 +1,11 @@
 /*
  * =====================================================
- * Koro Music Player - Stylesheet Utama
+ * Koro Music Player - Stylesheet Final (Mobile-First)
  * =====================================================
- * Dibuat dengan struktur Desktop-First dan Media Queries
- * untuk Tablet dan Mobile.
+ * Didesain dari layar kecil ke besar untuk stabilitas maksimal.
 */
 
-/* [1] VARIABEL ROOT & GAYA GLOBAL */
+/* [1] VARIABEL ROOT & GAYA GLOBAL DASAR */
 :root {
     --navy-blue: #001f3f;
     --dark-navy: #001122;
@@ -34,17 +33,27 @@ body {
     color: var(--text-primary);
     height: 100vh;
     overflow: hidden;
+    display: flex; /* Menggunakan flex untuk layout utama */
 }
 
-/* [2] STRUKTUR UTAMA APLIKASI */
+/*
+ * =====================================================
+ * [A] GAYA DASAR UNTUK MOBILE (Default)
+ * =====================================================
+*/
+
+/* [A.1] STRUKTUR UTAMA MOBILE */
 .app-container {
     display: flex;
     width: 100%;
     height: 100%;
+    position: relative; /* Untuk positioning sidebar */
 }
 
 .menu-toggle-btn {
-    display: none; /* Sembunyi di desktop, muncul di mobile */
+    display: flex; /* Selalu tampil di mobile */
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: 15px;
     left: 15px;
@@ -59,303 +68,249 @@ body {
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-/* [3] SIDEBAR NAVIGASI */
 .sidebar {
+    position: fixed; /* Sidebar melayang di mobile */
+    top: 0;
+    left: 0;
     width: 250px;
+    height: 100%;
     background-color: var(--dark-navy);
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--border-color);
-    transition: transform var(--transition-speed) ease-in-out;
-    position: relative;
     z-index: 1100;
+    border-right: 1px solid var(--border-color);
+    transform: translateX(-100%); /* Sembunyi di luar layar secara default */
+    transition: transform 0.35s ease-in-out;
 }
 
-.sidebar-header .logo {
-    font-size: 2em;
-    color: var(--accent-color);
-    margin-bottom: 30px;
+.sidebar.open {
+    transform: translateX(0); /* Muncul saat class .open ditambahkan */
+    box-shadow: 5px 0px 15px rgba(0,0,0,0.2);
 }
 
-.navigation ul {
-    list-style: none;
-}
-
-.navigation ul li a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 1.1em;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    transition: all var(--transition-speed) ease;
-}
-
-.navigation ul li a i {
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-}
-
-.navigation ul li a:hover,
-.navigation ul li a.active-link {
-    background-color: var(--accent-color);
-    color: var(--navy-blue);
-    font-weight: bold;
-}
-
-.sidebar-footer {
-    margin-top: auto;
-    text-align: center;
-    font-size: 0.8em;
-    color: var(--text-secondary);
-}
-
-/* [4] KONTEN UTAMA (MAIN CONTENT) */
 .main-content {
-    flex-grow: 1;
-    padding: 25px 30px 110px 30px; /* Padding bawah untuk player bar */
+    width: 100%;
+    padding: 75px 15px 200px 15px; /* Atas: untuk header, Bawah: untuk player bar */
     overflow-y: auto;
-    position: relative;
 }
 
-/* Sembunyikan scrollbar */
-.main-content::-webkit-scrollbar { display: none; }
-.main-content { -ms-overflow-style: none; scrollbar-width: none; }
-
-.page {
-    display: none;
-}
-.page.active-page {
-    display: block;
+/* Overlay gelap saat sidebar mobile terbuka */
+.main-content.sidebar-open-overlay::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1050; /* Di bawah sidebar, di atas konten */
 }
 
-.page-header {
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
 
-/* [5] PLAYER BAR BAWAH */
+/* [A.2] PLAYER BAR MOBILE */
 .player-bar {
-    height: 90px;
-    background-color: var(--dark-navy);
-    border-top: 1px solid var(--border-color);
-    padding: 0 25px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    background-color: var(--dark-navy);
+    border-top: 1px solid var(--border-color);
+    padding: 15px;
+    height: auto; /* Tinggi otomatis */
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+    flex-direction: column; /* Tumpuk vertikal */
+    gap: 15px;
 }
 
 .song-info {
+    width: 100%;
     display: flex;
     align-items: center;
-    flex: 1; /* Ambil sisa ruang */
-    min-width: 180px;
+    order: 1;
 }
 
 .player-cover {
-    width: 55px;
-    height: 55px;
-    border-radius: 6px;
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
     margin-right: 15px;
-}
-
-.song-details .player-title {
-    font-weight: bold;
-    color: var(--text-primary);
-}
-.song-details .player-artist {
-    font-size: 0.85em;
-    color: var(--text-secondary);
-}
-
-.player-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    flex: 1.5; /* Beri ruang lebih di tengah */
-}
-
-.control-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1.4em;
-    cursor: pointer;
-    transition: all var(--transition-speed) ease;
-}
-.control-btn:hover {
-    color: var(--text-primary);
-    transform: scale(1.1);
-}
-.control-btn.play-btn {
-    font-size: 2.2em;
-    color: var(--accent-color);
-}
-.control-btn.play-btn:hover {
-    color: var(--accent-hover);
-}
-.control-btn.active {
-    color: var(--accent-color);
+    flex-shrink: 0;
 }
 
 .progress-volume-controls {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex: 1; /* Ambil sisa ruang */
-    min-width: 180px;
-}
-
-.progress-container, .volume-container {
-    display: flex;
-    align-items: center;
     width: 100%;
+    order: 2;
 }
-.progress-container { flex-grow: 1; }
-.volume-container { max-width: 130px; }
 
-.progress-container span, .volume-container i {
-    font-size: 0.8em;
+.volume-container {
+    display: none; /* Sembunyikan volume di mobile */
+}
+
+.player-controls {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    order: 3;
+}
+
+.control-btn {
+    background: none; border: none; cursor: pointer;
     color: var(--text-secondary);
-    margin: 0 8px;
+    font-size: 1.6em; /* Ikon besar, mudah disentuh */
+    transition: all var(--transition-speed) ease;
+}
+.control-btn:hover { color: var(--text-primary); }
+.control-btn.play-btn { font-size: 2.4em; color: var(--accent-color); }
+.control-btn.active { color: var(--accent-color); }
+
+
+/* [A.3] GAYA KONTEN MOBILE */
+.page-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 5px;
-    background: var(--light-navy);
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-}
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    background: var(--accent-color);
-    border-radius: 50%;
+#searchInput { width: 100%; }
+
+.song-list-container, .playlist-grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Selalu satu kolom */
+    gap: 15px;
 }
 
 /*
  * =====================================================
- * BAGIAN RESPONSIVE (MEDIA QUERIES)
+ * [B] PENYESUAIAN UNTUK TABLET (Lebar Layar >= 768px)
  * =====================================================
 */
-
-/* [A] TAMPILAN TABLET (iPad, dll) - (Lebar Maksimal 1024px) */
-@media (max-width: 1024px) {
-    .sidebar {
-        width: 220px; /* Perkecil sidebar */
+@media (min-width: 768px) {
+    .menu-toggle-btn {
+        display: none; /* Sembunyikan tombol hamburger */
     }
 
+    .sidebar {
+        position: relative; /* Kembali ke layout normal */
+        transform: translateX(0); /* Selalu terlihat */
+    }
+
+    .main-content {
+        flex-grow: 1;
+        padding: 25px 30px 150px 30px; /* Sesuaikan padding */
+    }
+
+    .main-content.sidebar-open-overlay::before {
+        display: none; /* Tidak perlu overlay lagi */
+    }
+
+    /* Player Bar untuk Tablet */
     .player-bar {
-        flex-wrap: wrap; /* Izinkan item untuk turun baris */
-        height: auto;
+        flex-direction: row; /* Kembali ke layout baris */
+        flex-wrap: wrap;
         padding: 15px;
         row-gap: 15px;
+        align-items: center;
     }
 
     .song-info {
         order: 1;
-        flex-basis: 45%; /* Ambil 45% lebar */
+        flex-basis: 45%;
+        width: auto;
     }
 
     .progress-volume-controls {
         order: 2;
-        flex-basis: 45%; /* Ambil 45% lebar */
+        flex-basis: 45%;
+        width: auto;
     }
 
     .player-controls {
         order: 3;
-        flex-basis: 100%; /* Tombol kontrol di tengah, lebar penuh */
+        flex-basis: 100%;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .volume-container {
+        display: flex; /* Tampilkan kembali volume */
+        max-width: 150px;
+    }
+
+    .progress-container {
+        flex-grow: 1;
     }
 }
 
-
-/* [B] TAMPILAN HANDPHONE (Lebar Maksimal 768px) */
-@media (max-width: 768px) {
-    .menu-toggle-btn {
-        display: flex; /* Tampilkan tombol hamburger */
-    }
-
-    .sidebar {
-        position: fixed;
-        height: 100%;
-        transform: translateX(-100%); /* Sembunyikan di luar layar */
-    }
-
-    .sidebar.open {
-        transform: translateX(0); /* Munculkan saat class 'open' ada */
-    }
-
+/*
+ * ========================================================
+ * [C] PENYESUAIAN UNTUK DESKTOP (Lebar Layar >= 1025px)
+ * ========================================================
+*/
+@media (min-width: 1025px) {
     .main-content {
-        margin-left: 0;
-        padding: 75px 15px 200px 15px; /* Padding atas & bawah untuk header/player bar */
+        padding: 25px 40px 110px 40px; /* Lebih banyak ruang */
     }
 
-    /* Overlay gelap saat sidebar terbuka */
-    .main-content.sidebar-open-overlay::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 1050;
-    }
-
-    /* Daftar lagu dan playlist jadi satu kolom */
-    .song-list-container, .playlist-grid-container {
-        grid-template-columns: 1fr;
-    }
-    
-    /* Rombak total player bar untuk mobile */
+    /* Player Bar kembali ke layout 3 kolom ideal */
     .player-bar {
-        flex-direction: column;
-        align-items: stretch; /* Item jadi lebar penuh */
-        padding: 15px;
-        row-gap: 15px;
+        flex-wrap: nowrap;
+        height: 90px;
+        padding: 0 25px;
+        gap: 20px;
     }
 
     .song-info {
         order: 1;
+        flex-basis: 30%;
     }
 
-    .progress-container { /* Hanya progress bar yang ditampilkan */
+    .player-controls {
         order: 2;
+        flex-basis: 40%;
+    }
+
+    .progress-volume-controls {
+        order: 3;
+        flex-basis: 30%;
+        display: flex;
+        flex-direction: column; /* Tumpuk progress & volume */
+        gap: 2px;
+    }
+
+    .progress-container, .volume-container {
         width: 100%;
     }
-
-    .volume-container {
-        display: none; /* Sembunyikan kontrol volume di mobile */
-    }
-    
-    .player-controls {
-        order: 3;
-        justify-content: space-around; /* Jaga jarak tombol */
-    }
-
-    .control-btn { font-size: 1.6em; }
-    .control-btn.play-btn { font-size: 2.4em; }
-
-    /* Ukuran font dan elemen lainnya */
-    .page-header { flex-direction: column; align-items: flex-start; }
-    #searchInput { width: 100%; }
-    .profile-avatar { width: 100px; height: 100px; }
-    .stats { flex-direction: column; }
 }
+
+/*
+ * =====================================================
+ * GAYA-GAYA LAINNYA (TIDAK BERUBAH BANYAK)
+ * =====================================================
+*/
+
+/* Navigasi */
+.navigation ul { list-style: none; }
+.navigation ul li a { color: var(--text-secondary); text-decoration: none; font-size: 1.1em; padding: 12px 15px; margin-bottom: 10px; border-radius: 8px; display: flex; align-items: center; transition: all var(--transition-speed) ease; }
+.navigation ul li a i { margin-right: 15px; width: 20px; text-align: center; }
+.navigation ul li a:hover, .navigation ul li a.active-link { background-color: var(--accent-color); color: var(--navy-blue); font-weight: bold; }
+.sidebar-footer { margin-top: auto; text-align: center; font-size: 0.8em; color: var(--text-secondary); }
+
+/* Konten Halaman & Search */
+.page { display: none; }
+.page.active-page { display: block; }
+.page-header h2 { font-size: 1.8em; }
+.search-container { position: relative; }
+#searchInput { padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid var(--border-color); background-color: var(--light-navy); color: var(--text-primary); transition: all 0.3s ease; }
+#searchInput:focus { outline: none; border-color: var(--accent-color); background-color: var(--bg-secondary); }
+.search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+.song-item { background-color: var(--bg-secondary); padding: 15px; border-radius: 8px; display: flex; align-items: center; cursor: pointer; transition: all var(--transition-speed) ease; }
+.song-item.playing { background-color: var(--accent-color); color: var(--navy-blue); }
+.song-item.playing .song-item-title, .song-item.playing .song-item-artist { color: var(--navy-blue); }
+
+/* Input Range */
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; background: var(--light-navy); border-radius: 5px; cursor: pointer; outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 15px; height: 15px; background: var(--accent-color); border-radius: 50%; }
+
+/* ... (semua gaya lain untuk modal, profile, settings, dll. bisa diletakkan di sini jika ada) ... */
