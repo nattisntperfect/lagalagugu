@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koro Music Player</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1DB954">
+    <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
+    
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -21,7 +26,8 @@
                 <ul>
                     <li><a href="#home" class="nav-link active-link" data-page="home"><i class="fas fa-home" aria-hidden="true"></i> Beranda</a></li>
                     <li><a href="#playlists" class="nav-link" data-page="playlists"><i class="fas fa-list-music" aria-hidden="true"></i> Playlist</a></li>
-                    <li><a href="#lyricsPage" class="nav-link" data-page="lyricsPage"><i class="fas fa-file-alt" aria-hidden="true"></i> Lirik</a></li> <li><a href="#profile" class="nav-link" data-page="profile"><i class="fas fa-user" aria-hidden="true"></i> Profil</a></li>
+                    <li><a href="#lyricsPage" class="nav-link" data-page="lyricsPage"><i class="fas fa-file-alt" aria-hidden="true"></i> Lirik</a></li>
+                    <li><a href="#profile" class="nav-link" data-page="profile"><i class="fas fa-user" aria-hidden="true"></i> Profil</a></li>
                     <li><a href="#settings" class="nav-link" data-page="settings"><i class="fas fa-cog" aria-hidden="true"></i> Pengaturan</a></li>
                 </ul>
             </nav>
@@ -46,9 +52,9 @@
             <section id="playlists" class="page" aria-labelledby="playlistsHeading">
                 <header class="page-header">
                     <h2 id="playlistsHeading">Playlist Saya</h2>
-                     <button id="showCreatePlaylistFormBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Playlist Baru</button>
+                    <button id="showCreatePlaylistFormBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Playlist Baru</button>
                 </header>
-                 <div id="createPlaylistFormContainer" class="create-playlist-form">
+                <div id="createPlaylistFormContainer" class="create-playlist-form">
                     <label for="newPlaylistNameInputGlobal" class="sr-only">Nama playlist baru</label>
                     <input type="text" id="newPlaylistNameInputGlobal" placeholder="Nama playlist baru...">
                     <button id="createNewPlaylistBtnGlobal" class="btn btn-success">Simpan Playlist</button>
@@ -134,12 +140,12 @@
                         <input type="checkbox" id="darkModeToggle" class="toggle-switch">
                         <span></span>
                     </div>
-                     <div class="setting-item">
+                    <div class="setting-item">
                         <label for="shuffleToggle">Acak Lagu (Default)</label>
                         <input type="checkbox" id="shuffleToggle" class="toggle-switch">
                         <span></span>
                     </div>
-                     <div class="setting-item">
+                    <div class="setting-item">
                         <label for="repeatToggle">Ulangi Lagu (Default)</label>
                         <input type="checkbox" id="repeatToggle" class="toggle-switch">
                         <span></span>
@@ -185,7 +191,7 @@
                 </div>
             </div>
             <audio id="audioPlayer"></audio>
-             <div class="extra-controls"> </div>
+            <div class="extra-controls"> </div>
         </footer>
     </div>
 
