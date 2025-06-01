@@ -1,24 +1,19 @@
-/*
- * =======================================================
- * Koro Music Player - Stylesheet Final
- * Pendekatan: Mobile-First
- * Deskripsi: Didesain untuk layar kecil terlebih dahulu,
- * lalu ditingkatkan untuk tablet dan desktop.
- * =======================================================
-*/
-
-/* [0] ROOT VARIABLES & GLOBAL RESET */
+/* css/style.css */
 :root {
-    --navy-blue: #001f3f;
+    --navy-blue: #001f3f; /* Biru Navy Utama */
     --dark-navy: #001122;
     --light-navy: #0a2c4d;
-    --accent-color: #42c5f5;
+    --accent-color: #42c5f5; /* Teal muda sebagai aksen */
     --accent-hover: #67d2f7;
     --text-primary: #ffffff;
     --text-secondary: #bdc3c7;
     --bg-secondary: #0e2941;
     --border-color: #1a3a5a;
-    --interactive-cute: #ff7b7b;
+    --interactive-cute: #ff7b7b; /* Coral muda untuk sentuhan menggemaskan */
+    --success-color: #28a745;
+    --success-hover: #218838;
+
+
     --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --transition-speed: 0.3s;
 }
@@ -29,203 +24,1105 @@
     box-sizing: border-box;
 }
 
-html, body {
+body {
     font-family: var(--font-primary);
     background-color: var(--navy-blue);
     color: var(--text-primary);
+    display: flex; /* Untuk layout app-container jika hamburger di luar */
     height: 100vh;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
-/*
- * =======================================================
- * [1] GAYA DASAR / MOBILE-FIRST (Default untuk HP)
- * =======================================================
-*/
+/* Tombol Hamburger Menu (untuk mobile) */
+.menu-toggle-btn {
+    display: none; /* Sembunyikan di desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1200; /* Di atas sidebar */
+    background: var(--accent-color);
+    color: var(--navy-blue);
+    border: none;
+    padding: 8px 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color var(--transition-speed);
+}
+.menu-toggle-btn:hover, .menu-toggle-btn:focus {
+    background-color: var(--accent-hover);
+    outline: none;
+}
 
-/* [1.1] Layout Utama & Sidebar */
+
 .app-container {
+    display: flex;
     width: 100%;
     height: 100%;
 }
 
-.menu-toggle-btn {
-    display: flex; /* Tampil di mobile */
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1200;
-    background: var(--accent-color);
-    color: var(--navy-blue);
-    border: none;
-    padding: 10px 12px;
-    font-size: 1.2em;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-}
-
+/* Sidebar */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 250px;
-    height: 100%;
     background-color: var(--dark-navy);
     padding: 20px;
     display: flex;
     flex-direction: column;
-    z-index: 1100;
     border-right: 1px solid var(--border-color);
-    transform: translateX(-100%); /* Sembunyi di luar layar */
-    transition: transform 0.35s ease-in-out;
+    transition: width var(--transition-speed) ease, left var(--transition-speed) ease;
+    position: relative; 
+    z-index: 1100; 
 }
 
-.sidebar.open {
-    transform: translateX(0); /* Muncul saat class .open ada */
+.sidebar.open { 
+    left: 0 !important; 
+    box-shadow: 5px 0px 15px rgba(0,0,0,0.2);
 }
 
+
+.sidebar-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 2em;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-icon {
+    margin-left: 10px;
+    animation: bounceIcon 2s infinite ease-in-out;
+}
+
+@keyframes bounceIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+
+.navigation ul {
+    list-style: none;
+}
+
+.navigation ul li {
+    margin-bottom: 15px;
+}
+
+.navigation ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.navigation ul li a i {
+    margin-right: 12px;
+    width: 20px; 
+    text-align: center;
+}
+
+.navigation ul li a:hover,
+.navigation ul li a.active-link {
+    background-color: var(--accent-color);
+    color: var(--navy-blue);
+    font-weight: bold;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--text-secondary);
+}
+
+
+/* Main Content */
 .main-content {
-    width: 100%;
-    height: 100%;
-    padding: 70px 15px 190px 15px; /* Atas: u/ header, Bawah: u/ player bar mobile */
-    overflow-y: auto;
+    flex-grow: 1;
+    padding: 20px 30px;
+    overflow-y: auto; 
+    background-color: var(--navy-blue);
+    position: relative; 
 }
 
-/* Overlay gelap saat sidebar mobile terbuka */
-.main-content.sidebar-open-overlay::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1050;
+.page {
+    display: none; 
+    animation: fadeInPage 0.5s ease-in-out;
 }
 
-/* [1.2] Player Bar */
+.page.active-page {
+    display: block; 
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Izinkan wrap jika layar sempit */
+    gap: 10px; /* Jarak antara judul dan tombol */
+}
+
+.page-header h2 {
+    font-size: 1.8em;
+    color: var(--text-primary);
+    margin-right: auto; /* Dorong tombol ke kanan jika ada */
+}
+
+.search-container {
+    position: relative;
+}
+#searchInput {
+    padding: 10px 15px 10px 40px; 
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--light-navy);
+    color: var(--text-primary);
+    width: 250px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+#searchInput:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: var(--bg-secondary);
+    width: 300px;
+}
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+
+/* Song List */
+.song-list-container, .song-list-container-playlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.song-item {
+    background-color: var(--bg-secondary);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: relative; /* Untuk positioning tombol plus jika diperlukan */
+}
+
+.song-item:hover, .song-item:focus { 
+    transform: translateY(-5px) scale(1.02);
+    background-color: var(--light-navy);
+    outline: 2px solid var(--accent-color); 
+}
+
+.song-item.playing {
+    background-color: var(--accent-color);
+    color: var(--navy-blue) !important; 
+}
+.song-item.playing .song-item-title,
+.song-item.playing .song-item-artist {
+    color: var(--navy-blue) !important; 
+}
+
+
+.song-item-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.song-item-info {
+    flex-grow: 1;
+    margin-right: 5px; /* Beri jarak jika ada tombol plus */
+}
+
+.song-item-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.song-item-artist {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.song-item-play-indicator {
+    margin-left: auto; /* Dorong ke kanan jika tidak ada tombol plus */
+    color: var(--interactive-cute);
+    font-size: 1.2em;
+    display: none; 
+    padding: 5px; /* Area klik */
+}
+.song-item.playing .song-item-play-indicator {
+    display: block; 
+    color: var(--navy-blue);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Player Bar */
 .player-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 1000;
+    height: 90px;
     background-color: var(--dark-navy);
     border-top: 1px solid var(--border-color);
-    padding: 15px;
-    height: auto;
     display: flex;
-    flex-direction: column; /* Tumpuk vertikal */
-    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px; /* Padding disesuaikan sedikit */
+    position: fixed; 
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    z-index: 1000;
 }
 
-.song-info { display: flex; align-items: center; width: 100%; order: 1; }
-.player-cover { width: 50px; height: 50px; border-radius: 4px; margin-right: 15px; flex-shrink: 0; }
-.progress-volume-controls { width: 100%; order: 2; }
-.volume-container { display: none; }
-.player-controls { display: flex; align-items: center; justify-content: space-around; width: 100%; order: 3; }
-
-.control-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 1.6em; transition: all var(--transition-speed) ease; }
-.control-btn:hover { color: var(--text-primary); }
-.control-btn.play-btn { font-size: 2.4em; color: var(--accent-color); }
-.control-btn.active { color: var(--accent-color); }
-
-/* [1.3] Konten Halaman */
-.page-header { display: flex; flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-.page-header h2 { font-size: 1.6em; }
-#searchInput { width: 100%; padding: 12px 15px 12px 40px; border-radius: 20px; border: 1px solid var(--border-color); background-color: var(--light-navy); color: var(--text-primary); }
-.search-container { position: relative; width: 100%; }
-.search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); }
-
-.song-list-container, .playlist-grid-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.song-item, .playlist-card { background-color: var(--bg-secondary); padding: 15px; border-radius: 8px; cursor: pointer; }
-.song-item { display: flex; align-items: center; }
-
-/* Profile & Settings */
-.profile-content, .settings-content { text-align: center; }
-.profile-avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 15px; }
-.stats { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; margin-bottom: 10px; }
-
-/* [1.4] Komponen Lainnya */
-.modal-content { max-width: 90%; }
-input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; background: var(--light-navy); border-radius: 5px; cursor: pointer; outline: none; }
-input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 15px; height: 15px; background: var(--accent-color); border-radius: 50%; }
-.btn { padding: 12px 20px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold; }
-.btn-primary { background-color: var(--accent-color); color: var(--navy-blue); }
-.btn-secondary { background-color: var(--light-navy); color: var(--text-primary); }
-
-/*
- * ========================================================
- * [2] PENYESUAIAN UNTUK TABLET (Lebar Layar >= 768px)
- * ========================================================
-*/
-@media (min-width: 768px) {
-    body { display: flex; } /* Gunakan flexbox untuk layout utama */
-    .menu-toggle-btn { display: none; }
-
-    .sidebar {
-        position: relative; /* Kembali ke layout dokumen normal */
-        transform: translateX(0); /* Selalu terlihat */
-        flex-shrink: 0; /* Jangan biarkan sidebar menyusut */
-    }
-
-    .main-content {
-        flex-grow: 1; /* Biarkan konten utama mengisi sisa ruang */
-        padding: 25px 30px 150px 30px; /* Sesuaikan padding */
-    }
-
-    .main-content.sidebar-open-overlay::before {
-        display: none; /* Tidak perlu overlay lagi */
-    }
-
-    .page-header { flex-direction: row; justify-content: space-between; align-items: center; }
-    #searchInput { width: 250px; }
-    .song-list-container { grid-template-columns: repeat(2, 1fr); gap: 20px; } /* Jadi 2 kolom */
-    .playlist-grid-container { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-
-    /* Player Bar untuk Tablet */
-    .player-bar {
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 15px;
-        row-gap: 15px;
-        align-items: center;
-    }
-    .song-info { order: 1; flex-basis: 45%; flex-grow: 1; }
-    .progress-volume-controls { order: 3; flex-basis: 45%; flex-grow: 1; }
-    .player-controls { order: 2; flex-basis: 100%; justify-content: center; gap: 20px; }
-    .volume-container { display: flex; max-width: 150px; }
-    .progress-container { flex-grow: 1; }
+.song-info {
+    display: flex;
+    align-items: center;
+    flex-basis: 30%; 
+    min-width: 170px; /* Disesuaikan agar tidak terlalu lebar */
+    overflow: hidden; 
 }
 
-/*
- * ========================================================
- * [3] PENYESUAIAN UNTUK DESKTOP (Lebar Layar >= 1025px)
- * ========================================================
-*/
-@media (min-width: 1025px) {
-    .main-content {
-        padding: 30px 40px 120px 40px; /* Lebih banyak ruang */
-    }
+.player-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 10px; 
+    flex-shrink: 0; 
+}
 
-    .song-list-container { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-    .stats { flex-direction: row; justify-content: center; }
+.song-details .player-title {
+    font-size: 0.9em; 
+    font-weight: bold;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px; /* Disesuaikan agar muat */
+}
+.song-details .player-artist {
+    font-size: 0.75em; 
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+}
 
-    /* Player Bar kembali ke layout 3 kolom ideal */
-    .player-bar {
-        flex-wrap: nowrap;
-        height: 90px;
-        padding: 0 25px;
-        gap: 30px;
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 40%; /* Diberi ruang lebih besar karena ada 5 tombol */
+    gap: 1px; /* Jarak antar tombol utama sangat kecil */
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.25em; /* Ukuran ikon diseragamkan dan dikecilkan */
+    margin: 0 2px; /* Margin sangat kecil */
+    padding: 8px; /* Padding ditambah agar area sentuh lebih baik */
+    cursor: pointer;
+    border-radius: 50%; /* Buat tombol lebih bundar */
+    width: 40px; /* Beri lebar dan tinggi eksplisit */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-speed) ease, transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
+}
+.control-btn:hover, .control-btn:focus {
+    color: var(--accent-hover);
+    background-color: var(--light-navy); /* Feedback hover */
+    transform: scale(1.1);
+    outline: none; 
+}
+.control-btn.active { 
+    color: var(--accent-color);
+    background-color: var(--light-navy);
+}
+.control-btn.play-btn {
+    font-size: 1.8em; /* Tombol play tetap lebih besar */
+    color: var(--accent-color);
+    width: 50px;
+    height: 50px;
+}
+.control-btn.play-btn:hover, .control-btn.play-btn:focus {
+    color: var(--accent-hover);
+    background-color: var(--navy-blue); /* Warna BG beda untuk play */
+}
+
+
+.progress-volume-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 30%; 
+    min-width: 170px; /* Disesuaikan */
+}
+
+.progress-container, .volume-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 1px 0; 
+}
+
+.progress-container span, .volume-container i {
+    font-size: 0.75em; 
+    color: var(--text-secondary);
+    margin: 0 5px; /* Margin disesuaikan */
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px; 
+    background: var(--light-navy);
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px; 
+    height: 14px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: background-color var(--transition-speed) ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-moz-range-thumb:hover {
+    background: var(--accent-hover);
+}
+
+.extra-controls { /* Bagian ini sekarang akan kosong */
+    flex-basis: 0%; 
+    min-width: 0; /* Tidak perlu min-width jika kosong */
+}
+.extra-controls:empty { 
+    display: none;
+}
+
+
+/* Playlists Page */
+.playlist-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.playlist-card {
+    background-color: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
+}
+.playlist-card:hover, .playlist-card:focus {
+    transform: translateY(-5px);
+    background-color: var(--light-navy);
+    outline: 2px solid var(--accent-color);
+}
+.playlist-card i {
+    font-size: 3em;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+.playlist-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+.playlist-song-count {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+}
+.playlist-detail-container,
+#createPlaylistFormContainer { 
+    display: none; /* Disembunyikan secara default */
+}
+#backToPlaylists {
+    margin-bottom: 20px;
+}
+
+/* Form Buat Playlist di Halaman Playlist */
+.create-playlist-form {
+    background-color: var(--bg-secondary);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 0 0 20px 0; /* Margin atas dihapus, bawah ditambah */
+    /* display: flex; JS yang mengatur */
+    gap: 10px;
+    align-items: center;
+}
+.create-playlist-form input[type="text"] {
+    flex-grow: 1; 
+    margin-bottom: 0; 
+}
+
+
+/* Profile Page */
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+}
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid var(--accent-color);
+}
+.profile-content h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+.profile-content p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+.stats {
+    display: flex;
+    gap: 30px;
+}
+.stat-item {
+    background-color: var(--light-navy);
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 100px;
+}
+.stat-item h4 {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+.stat-item p {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0;
+}
+
+/* Settings Page */
+.settings-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.setting-item {
+    background-color: var(--bg-secondary);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.setting-item label {
+    font-size: 1.1em;
+    margin-right: 10px; 
+}
+.toggle-switch { 
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+.toggle-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-switch span { 
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--light-navy); 
+    transition: .4s;
+    border-radius: 26px; 
+}
+.toggle-switch span:before { 
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%; 
+}
+.toggle-switch input:checked + span {
+    background-color: var(--accent-color); 
+}
+.toggle-switch input:focus + span { 
+    box-shadow: 0 0 2px 2px var(--accent-hover);
+}
+.toggle-switch input:checked + span:before {
+    transform: translateX(24px); 
+}
+
+.about-app {
+    display: block; 
+    text-align: center;
+}
+.about-app h4 {
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+.about-app p {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Tombol umum */
+.btn {
+    padding: 8px 15px; /* Ukuran padding disesuaikan */
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9em; /* Ukuran font disesuaikan */
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--navy-blue);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--accent-hover);
+    transform: scale(1.05);
+    outline: none;
+}
+.btn-secondary {
+    background-color: var(--light-navy);
+    color: var(--text-primary);
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--bg-secondary);
+    transform: scale(1.05);
+    outline: none;
+}
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+.btn-success:hover, .btn-success:focus {
+    background-color: var(--success-hover);
+    transform: scale(1.05);
+    outline: none;
+}
+
+
+/* Kelas untuk menyembunyikan elemen secara visual tetapi tetap bisa diakses screen reader */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Tombol Tambah ke Playlist pada Item Lagu */
+.song-item-add-playlist-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.1em; /* Ukuran disesuaikan */
+    cursor: pointer;
+    padding: 5px 8px; /* Padding disesuaikan */
+    margin-left: auto; /* Dorong ke paling kanan setelah indikator play */
+    transition: color var(--transition-speed) ease;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.song-item-add-playlist-btn:hover,
+.song-item-add-playlist-btn:focus {
+    color: var(--accent-color);
+    background-color: var(--light-navy);
+    outline: none;
+}
+
+/* Styling untuk Modal Tambah ke Playlist */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1500; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); 
+    animation: fadeInModalBg 0.3s ease-out;
+    align-items: center; /* Untuk vertical centering jika display:flex di JS */
+    justify-content: center; /* Untuk horizontal centering jika display:flex di JS */
+}
+
+@keyframes fadeInModalBg {
+    from { background-color: rgba(0,0,0,0); }
+    to { background-color: rgba(0,0,0,0.6); }
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    /* margin: 10% auto; Dihapus jika menggunakan flex di .modal */
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px; /* Lebar maksimum modal disesuaikan */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    animation: slideInModal 0.3s ease-out;
+}
+
+@keyframes slideInModal {
+    from { transform: translateY(-30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.close-modal-btn {
+    color: var(--text-secondary);
+    position: absolute; /* Posisi absolut relatif ke modal-content */
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1; 
+    padding: 0;
+}
+.close-modal-btn:hover,
+.close-modal-btn:focus {
+    color: var(--interactive-cute);
+    text-decoration: none;
+    outline: none;
+}
+
+.modal-content h4, .modal-content h5 {
+    color: var(--text-primary);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.modal-content hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 20px 0;
+}
+
+.modal-playlist-list {
+    max-height: 150px; 
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px; /* Ruang untuk scrollbar jika muncul */
+}
+
+.modal-playlist-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: var(--light-navy);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+    font-size: 0.9em;
+}
+.modal-playlist-item:hover, .modal-playlist-item:focus {
+    background-color: var(--navy-blue);
+    outline: none;
+}
+
+.create-playlist-modal-section input[type="text"] { 
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--dark-navy);
+    color: var(--text-primary);
+}
+.create-playlist-modal-section input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.create-playlist-modal-section button {
+    margin-top: 5px;
+    width: 100%; /* Tombol ambil lebar penuh */
+}
+
+
+/* Responsiveness */
+@media (max-width: 1200px) {
+    .player-bar .song-info .song-details .player-title,
+    .player-bar .song-info .song-details .player-artist {
+        max-width: 100px; 
     }
-    .song-info { order: 1; flex-basis: 30%; flex-grow: 0; }
-    .player-controls { order: 2; flex-basis: 40%; flex-grow: 0; }
     .progress-volume-controls {
-        order: 3;
+        min-width: 180px; 
+    }
+    .player-controls {
+        flex-basis: 45%; 
+        gap: 1px; 
+    }
+    .control-btn {
+        font-size: 1.2em;
+        margin: 0 3px;
+    }
+    .control-btn.play-btn {
+        font-size: 1.8em;
+    }
+    .song-info {
+        flex-basis: 25%;
+    }
+    .progress-volume-controls {
         flex-basis: 30%;
-        flex-grow: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
+    }
+
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 200px;
+    }
+    .logo {
+        font-size: 1.5em;
+    }
+    .navigation ul li a {
+        font-size: 1em;
+        padding: 8px 10px;
+    }
+    .song-list-container, .playlist-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Ukuran kartu dikecilkan */
+    }
+    .player-bar {
+        flex-wrap: wrap; 
+        height: auto; 
+        padding: 10px;
+    }
+    .song-info {
+        flex-basis: 100%; 
         justify-content: center;
+        margin-bottom: 10px;
+        order: 0;
+    }
+     .progress-volume-controls {
+        flex-basis: 100%; 
+        order: 1; 
+        margin-bottom: 10px;
+    }
+    .player-controls {
+        flex-basis: 100%; 
+        order: 2;
+        justify-content: center; 
+        margin-bottom: 10px;
+    }
+    .extra-controls { 
+       display: none !important; /* Pastikan benar-benar hilang */
     }
 }
+
+
+@media (max-width: 768px) {
+    .menu-toggle-btn { 
+        display: block;
+    }
+    .sidebar {
+        position: fixed;
+        left: -220px; 
+        height: 100%;
+    }
+    .sidebar.open {
+        left: 0; 
+    }
+    .main-content {
+        padding: 15px;
+        margin-left: 0; 
+    }
+    .main-content.sidebar-open-overlay::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1050; 
+    }
+
+    .page-header {
+        flex-direction: column; /* Judul di atas, search/tombol di bawah */
+        align-items: flex-start; /* Rata kiri untuk semua item */
+    }
+    .page-header h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px; /* Jarak ke elemen di bawahnya */
+        margin-right: 0; /* Hapus margin kanan */
+    }
+    .page-header .btn { /* Tombol di page header */
+        width: 100%;
+        margin-top: 5px;
+    }
+    #searchInput {
+        width: 100%; 
+    }
+    #searchInput:focus {
+        width: 100%;
+    }
+
+    .song-list-container, .playlist-grid-container {
+        grid-template-columns: 1fr; 
+    }
+    
+     .player-controls {
+        flex-basis: 100%;
+        justify-content: space-around; 
+        order: 2;
+        margin-top: 10px;
+    }
+    .control-btn {
+        margin: 0 2px; 
+        font-size: 1.2em; 
+        width: 36px; /* Sesuaikan ukuran tombol di mobile */
+        height: 36px;
+    }
+    .control-btn.play-btn {
+        font-size: 1.7em;
+        width: 46px;
+        height: 46px;
+    }
+    .modal-content {
+        margin: 5% auto; /* Margin atas lebih kecil di mobile */
+        padding: 20px;
+        max-width: 90%;
+    }
+}
+
+/* Dark Mode  */
+body.dark-mode {
+    /* Default sudah gelap, ini bisa untuk tema alternatif jika diperlukan */
+}
+
+/* Hide scrollbar untuk Chrome, Safari and Opera */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar untuk IE, Edge and Firefox */
+.main-content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* ... (CSS Anda yang sudah ada) ... */
+
+/* Styling Halaman Lirik */
+.lyrics-content-container {
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    margin-top: 10px;
+    max-height: calc(100vh - 200px); /* Sesuaikan agar bisa scroll */
+    overflow-y: auto;
+    color: var(--text-primary);
+}
+.lyrics-content-container h3 { /* lyricsSongTitle */
+    color: var(--accent-color);
+    margin-bottom: 5px;
+}
+.lyrics-content-container p { /* lyricsSongArtist */
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+#lyricsTextDisplay {
+    white-space: pre-wrap; /* Agar \n di lirik berfungsi sebagai baris baru */
+    font-family: var(--font-primary); /* Samakan font */
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+#lyricsPageBackBtn {
+    margin-left: auto; /* Dorong tombol kembali ke kanan */
+}
+
+
+/* Styling Halaman Now Playing Focus */
+.now-playing-focus-page {
+    display: none; /* Defaultnya disembunyikan */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    height: calc(100vh - 90px); /* Tinggi penuh dikurangi player bar jika player bar tidak disembunyikan */
+    /* Jika player bar disembunyikan saat halaman ini aktif, gunakan height: 100vh; */
+    box-sizing: border-box;
+    overflow: hidden; /* Mencegah scroll jika konten terlalu besar */
+}
+/* Jika player-bar akan disembunyikan saat nowPlayingFocusPage aktif: */
+/* body.now-playing-focus-active .player-bar { display: none !important; } */
+/* body.now-playing-focus-active .now-playing-focus-page { height: 100vh; padding-bottom: 20px;} */
+
+
+.now-playing-focus-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10; /* Agar di atas elemen lain di page ini */
+}
+
+.now-playing-focus-cover {
+    width: 60vw; /* Lebar berdasarkan viewport width */
+    max-width: 350px; /* Batas maksimum lebar */
+    height: auto;
+    aspect-ratio: 1 / 1; /* Jaga rasio persegi */
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.now-playing-focus-info h2 { /* nowPlayingFocusTitle */
+    font-size: 1.8em;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+.now-playing-focus-info p { /* nowPlayingFocusArtist */
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.now-playing-focus-progress {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+    margin-bottom: 15px;
+}
+.now-playing-focus-progress span {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin: 0 10px;
+}
+.now-playing-focus-progress input[type="range"] { /* nowPlayingFocusSeekBar */
+    flex-grow: 1;
+}
+
+.now-playing-focus-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Jarak antar tombol */
+    margin-bottom: 20px;
+}
+/* Tombol di Now Playing Focus menggunakan styling .control-btn yang sudah ada, */
+/* tapi mungkin perlu penyesuaian ukuran jika diperlukan */
+.now-playing-focus-controls .control-btn {
+    font-size: 1.5em; /* Sedikit lebih besar dari di player bar */
+    width: 45px;
+    height: 45px;
+}
+.now-playing-focus-controls .control-btn.play-btn {
+    font-size: 2.2em;
+    width: 60px;
+    height: 60px;
+}
+
+
+.now-playing-focus-volume {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    max-width: 300px;
+}
+.now-playing-focus-volume i {
+    font-size: 1em;
+    color: var(--text-secondary);
+    margin: 0 10px;
+}
+.now-playing-focus-volume input[type="range"] { /* nowPlayingFocusVolumeBar */
+    flex-grow: 1;
+}
+
+/* Styling tambahan untuk song-info di player bar agar bisa diklik */
+#playerBarSongInfo {
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+    padding: 5px; /* Beri sedikit area padding */
+    border-radius: 4px;
+}
+#playerBarSongInfo:hover {
+    background-color: var(--light-navy);
+}
+
+
+/* ... (Sisa CSS Anda dan @media queries) ... */
