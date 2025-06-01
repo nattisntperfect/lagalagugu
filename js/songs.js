@@ -233,20 +233,9 @@ const songs = [
         cover: "images/alonicaj.jpeg",
         lyrics: "I'm falling out of love with you LA\nRunning out of reasons I should stay\nI'm overwhelmed, I'm over it\nIt's too cold here anyway\nI'm falling out of love with you LA\nBack to Alonica\nWhere the sun is out all the time\nMy favorite beach is there\nAnd the sand, it stretches for miles\nSinging la-di-di-di-da\nAnd slowly dancing 'til the morning comes\nI feel most at home when I'm back in Alonica\nDarling, I have finally settled in\nThe water's perfect for a midnight swim\nIt's paradise, the stars and I\nAre catching up like old friends\nMy heart is learning how to love again\nBack to Alonica\nWhere the sun is out all the time\nMy favorite beach is there\nAnd the sand, it stretches for miles\nSinging la-di-di-di-da\nAnd slowly dancing 'til the morning comes\nI feel most at home when I'm back in Alonica\nMade up of a thousand colors\nEverything is in its place\nI don't know the last time there were\nTears like this upon my face\nEvery artist falls in wonder\nEven Michelangelo\nIf God is really out there somewhere\nThis must be his other home\nBack to Alonica\nWhere the sun is out all the time\nMy favorite beach is there\nAnd the sand, it stretches for miles\nSinging la-di-di-di-da\nAnd slowly dancing 'til the morning comes\nI feel most at home when I'm back in Alonica"
     },
-    { id: 30, title: "Harmoni 30", artist: "Grup Musik 30", src: "audio/harmoni_30.mp3", cover: "images/cover_30.jpeg", lyrics: "Lirik placeholder untuk lagu 30...\n..." },
-    { id: 31, title: "Judul Lagu 31", artist: "Artis Ke-31", src: "audio/song31.mp3", cover: "images/cover31.jpg", lyrics: "Lirik placeholder untuk lagu 31...\n..." },
-    { id: 32, title: "Melodi 32", artist: "Penyanyi 32", src: "audio/lagu_32.mp3", cover: "images/album_art_32.png", lyrics: "Lirik placeholder untuk lagu 32...\n..." },
-    { id: 33, title: "Harmoni 33", artist: "Grup Musik 33", src: "audio/harmoni_33.mp3", cover: "images/cover_33.jpeg", lyrics: "Lirik placeholder untuk lagu 33...\n..." },
-    { id: 34, title: "Rhythm 34", artist: "Artis 34", src: "audio/rhythm_34.mp3", cover: "images/rhythm_34.jpg", lyrics: "Lirik placeholder untuk lagu 34...\n..." },
-    { id: 35, title: "Glow 35", artist: "Penyanyi 35", src: "audio/glow_35.mp3", cover: "images/glow_35.png", lyrics: "Lirik placeholder untuk lagu 35...\n..." },
-    { id: 36, title: "Beats 36", artist: "Band 36", src: "audio/beats_36.mp3", cover: "images/beats_36.jpeg", lyrics: "Lirik placeholder untuk lagu 36...\n..." },
-    { id: 37, title: "Silence 37", artist: "Musisi 37", src: "audio/silence_37.mp3", cover: "images/silence_37.jpg", lyrics: "Lirik placeholder untuk lagu 37...\n..." },
-    { id: 38, title: "Judul Lagu 38", artist: "Artis Ke-38", src: "audio/song38.mp3", cover: "images/cover38.jpg", lyrics: "Lirik placeholder untuk lagu 38...\n..." },
-    { id: 39, title: "Melodi 39", artist: "Penyanyi 39", src: "audio/lagu_39.mp3", cover: "images/album_art_39.png", lyrics: "Lirik placeholder untuk lagu 39...\n..." },
-    {
         id: 40,
-        title: "Harmoni Pagi Terakhir",
-        artist: "Vokalis Empat Puluh",
+        title: "Blessed",
+        artist: "Daniel Caesar",
         src: "audio/song40.mp3",
         cover: "images/cover40.jpg",
         lyrics: "Lirik untuk Harmoni Pagi Terakhir...\nBaris kedua...\nDan seterusnya..."
@@ -256,17 +245,17 @@ const songs = [
 const defaultPlaylists = [
     {
         id: 1620000000001,
-        name: "Favoritku",
+        name: "Gebi",
         songIds: [1, 3, 5, 10, 15, 16, 19, 20, 23, 24, 25, 26, 30, 35, 40]
     },
     {
         id: 1620000000002,
-        name: "Santai Sore",
+        name: "Jangan",
         songIds: [2, 4, 6, 8, 12, 18, 27, 28, 29] // Added songId 29 here
     },
     {
         id: 1620000000003,
-        name: "Semangat Pagi",
+        name: "Sedihh",
         songIds: [7, 9, 11, 13, 14, 17, 21, 22, 33]
     }
 ];
